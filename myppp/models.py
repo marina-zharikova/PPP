@@ -1,0 +1,114 @@
+# -*- coding: utf-8 -*-
+from django.db import models
+from django.contrib.gis.db import models
+from django.utils.translation import ugettext as _
+from colorful.fields import RGBColorField
+from django.utils.safestring import mark_safe
+from datetime import date
+from sorl.thumbnail import ImageField
+
+# Create your models here.
+
+
+# Types of accessories (shawl, neckerchief, scarf, palatine)
+class Accessory_type(models.Model):
+    accessory_type = models.CharField(_(u'Accessory type'), max_length=25, null=True, blank=True, default='')
+    def __unicode__(self):
+  #      return '%s  (%s)' % (self.structure,self.fuel_moisture)
+        return '%s' % (self.accessory_type)
+    class Meta:
+        verbose_name=_(u'Accessory type')
+        verbose_name_plural=_(u'Accessory types')
+
+# Fabric (wool, silk)
+class Fabric_type(models.Model):
+    fabric_type = models.CharField(_(u'Fabric type'), max_length=25, null=True, blank=True, default='')
+    def __unicode__(self):
+  #      return '%s  (%s)' % (self.structure,self.fuel_moisture)
+        return '%s' % (self.fabric_type)
+    class Meta:
+        verbose_name=_(u'Fabric type')
+        verbose_name_plural=_(u'Fabric types')
+
+# Subtypes of fabric (crepe-de-chine, georgette, atlas, jakquard) (fabric_type, fabric_subtype)
+class Fabric_subtype(models.Model):
+ #   fabric_type = models.CharField(_(u'Fabric type'), max_length=25, null=True, blank=True, default='')
+    fabric_type = models.ForeignKey(Fabric_type, null=True, blank=True)
+    fabric_subtype = models.CharField(_(u'Fabric subtype'), max_length=25, null=True, blank=True, default='')
+    def __unicode__(self):
+  #      return '%s  (%s)' % (self.structure,self.fuel_moisture)
+        return '%s' % (self.fabric_subtype)
+    class Meta:
+        verbose_name=_(u'Fabric subtype')
+        verbose_name_plural=_(u'Fabric subtypes')
+
+# Size
+class Size_type(models.Model):
+    size_type = models.CharField(_(u'Size type'), max_length=25, null=True, blank=True, default='')
+    def __unicode__(self):
+  #      return '%s  (%s)' % (self.structure,self.fuel_moisture)
+        return '%s' % (self.size_type)
+    class Meta:
+        verbose_name=_(u'Size')
+        verbose_name_plural=_(u'Size') 
+
+# Types of fringe (silk, wool, viscose chekced, without fringe)
+class Fringe_type(models.Model):
+    fringe_type = models.CharField(_(u'Fringe type'), max_length=25, null=True, blank=True, default='')
+    def __unicode__(self):
+  #      return '%s  (%s)' % (self.structure,self.fuel_moisture)
+        return '%s' % (self.fringe_type)
+    class Meta:
+        verbose_name=_(u'Fringe type')
+        verbose_name_plural=_(u'Fringe types') 
+
+
+
+class Colors(models.Model):
+    color = models.CharField(_(u'Size type'), max_length=25, null=True, blank=True, default='')
+    color_pic = RGBColorField()
+    def __unicode__(self):
+  #      return '%s  (%s)' % (self.structure,self.fuel_moisture)
+        return '%s' % (self.color)
+    @property
+    def color_repr(self):
+        return mark_safe('<div style="width: 50px; height: 50px; background-color: %s"></div>' % self.color)
+    class Meta:
+        verbose_name=_(u'Color')
+        verbose_name_plural=_(u'Colors') 
+        ordering = ['color',]
+
+# Painters
+class Painters(models.Model):
+    painter = models.CharField(_(u'Painter'), max_length=25, null=True, blank=True, default='')
+    def __unicode__(self):
+  #      return '%s  (%s)' % (self.structure,self.fuel_moisture)
+        return '%s' % (self.painter)
+    class Meta:
+        verbose_name=_(u'Painter')
+        verbose_name_plural=_(u'Painters') 
+
+# My PPP
+class My_ppp(models.Model):
+    accessory_type = models.ForeignKey(Accessory_type, null=True, blank=True)
+    painter = models.ForeignKey(Painters, null=True, blank=True)
+    fabric_type = models.ForeignKey(Fabric_type, null=True, blank=True)
+    fabric_subtype = models.ForeignKey(Fabric_subtype, null=True, blank=True)
+    size_type = models.ForeignKey(Size_type, null=True, blank=True)
+    fringe_type = models.ForeignKey(Fringe_type, null=True, blank=True)
+    border_color = models.ForeignKey(Colors, null=True, blank=True,  related_name='border_color')
+    base_color = models.ForeignKey(Colors, null=True, blank=True,  related_name='base_color')
+    color1 = models.ForeignKey(Colors, null=True, blank=True,  related_name='color1', verbose_name='Additional color 1')
+    color2 = models.ForeignKey(Colors, null=True, blank=True,  related_name='color2', verbose_name='Additional color 2')
+    color3 = models.ForeignKey(Colors, null=True, blank=True,  related_name='color3', verbose_name='Additional color 3')
+    image = ImageField(upload_to='media')
+    name = models.CharField(_(u'Name'), max_length=25, null=True, blank=True, default='')
+ #   author = models.CharField(_(u'Author'), max_length=25, null=True, blank=True, default='')
+ #   def __unicode__(self):
+  #      return '%s' % (self.accessory_type)
+    class Meta:
+        verbose_name=_(u'My PPP')
+        verbose_name_plural=_(u'My PPP')
+        ordering = ['name',]
+
+

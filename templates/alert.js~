@@ -1,0 +1,15 @@
+    <html lang="en" >
+    <head>
+     <meta charset="utf-8">
+    <script src="/static/fabricjs/dist/fabric.min.js"></script>
+    </head>
+    <body>
+
+
+  <script>
+    alert( 'I am JavaScript!' );
+  </script>
+
+
+</body>
+</html>

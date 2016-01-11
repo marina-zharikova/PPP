@@ -1,0 +1,64 @@
+    {% load staticfiles %}<!DOCTYPE html>
+    <html lang="en" >
+    <head>
+     <meta charset="utf-8">
+    <script src="/static/fabricjs/dist/fabric.min.js"></script>
+    </head>
+    <body>
+
+Hi!
+
+
+
+
+
+
+
+
+
+
+<canvas id="c" width="200" height="200"></canvas>
+
+
+
+
+
+<script>
+(function() { 
+
+var canvas = new fabric.Canvas('c');
+var rect = new fabric.Rect({
+  left: 100,
+  top: 100,
+  fill: 'black',
+  width: 50,
+  height: 50
+});
+
+canvas.add(rect);
+
+})()
+
+
+</script>
+
+
+
+<script>
+var admin = "Коля";
+var name = "Василий";
+admin = name;
+alert(name);
+//var result = prompt('Введите имя', "Марина");
+//alert("Ваше имя "+ result);
+</script>
+
+
+
+  <script src = "/static/alert.js">  </script>
+
+
+    </body>
+    </html>
+
+
